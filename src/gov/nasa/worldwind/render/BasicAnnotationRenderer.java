@@ -149,12 +149,14 @@ public class BasicAnnotationRenderer implements AnnotationRenderer
                 eyeDistance = annotation.isAlwaysOnTop() ? 0 : dc.getView().getEyePoint().distanceTo3(annotationPoint);
             }
 
-            if (annotation instanceof ScreenAnnotation)
+            //if uncomment this code ScreenAnnotation disappear after window resize
+            
+           /* if (annotation instanceof ScreenAnnotation)
             {
                 Rectangle screenBounds = annotation.getBounds(dc);
                 if (screenBounds != null && !dc.getView().getViewport().intersects(screenBounds))
                     return;
-            }
+            }*/
 
             // The annotations aren't drawn here, but added to the ordered queue to be drawn back-to-front.
             dc.addOrderedRenderable(new OrderedAnnotation(annotation, layer, eyeDistance));
