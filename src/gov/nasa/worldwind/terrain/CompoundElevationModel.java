@@ -488,8 +488,9 @@ public class CompoundElevationModel extends AbstractElevationModel
         {
             targetResolutions[i] = targetResolution;
         }
-
-        return this.doGetElevations(sector, latlons, targetResolutions, buffer, false)[0];
+        double[] res = this.doGetElevations(sector, latlons, targetResolutions, buffer, false);
+        Arrays.sort(res);
+        return res[0];
     }
 
     /**
@@ -521,7 +522,9 @@ public class CompoundElevationModel extends AbstractElevationModel
             targetResolutions[i] = targetResolution;
         }
 
-        return this.doGetElevations(sector, latlons, targetResolutions, buffer, false)[0];
+        double[] res = this.doGetElevations(sector, latlons, targetResolutions, buffer, false);
+        Arrays.sort(res);
+        return res[0];
     }
 
     @Override
