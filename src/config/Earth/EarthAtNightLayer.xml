@@ -9,8 +9,8 @@
 <Layer version="1" layerType="TiledImageLayer">
     <DisplayName>Earth at Night</DisplayName>
     <Service serviceName="OGC:WMS" version="1.3">
-        <GetCapabilitiesURL>http://worldwind25.arc.nasa.gov/wms</GetCapabilitiesURL>
-        <GetMapURL>http://worldwind25.arc.nasa.gov/wms</GetMapURL>
+        <GetCapabilitiesURL>http://wms.mavinci.de/25/wms</GetCapabilitiesURL>
+        <GetMapURL>http://wms.mavinci.de/25/wms</GetMapURL>
         <LayerNames>earthatnight</LayerNames>
     </Service>
     <RetrievePropertiesFromService>true</RetrievePropertiesFromService>
