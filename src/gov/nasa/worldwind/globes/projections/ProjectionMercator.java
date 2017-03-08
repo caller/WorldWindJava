@@ -6,7 +6,10 @@
 
 package gov.nasa.worldwind.globes.projections;
 
-import gov.nasa.worldwind.geom.*;
+import gov.nasa.worldwind.geom.Angle;
+import gov.nasa.worldwind.geom.Position;
+import gov.nasa.worldwind.geom.Sector;
+import gov.nasa.worldwind.geom.Vec4;
 import gov.nasa.worldwind.globes.Globe;
 import gov.nasa.worldwind.util.WWMath;
 
@@ -47,18 +50,24 @@ public class ProjectionMercator extends AbstractGeographicProjection
         if (longitude.degrees < this.getProjectionLimits().getMinLongitude().degrees)
             longitude = this.getProjectionLimits().getMinLongitude();
 
-        double xOffset = offset != null ? offset.x : 0;
-
-        // See "Map Projections: A Working Manual", page 44 for the source of the below formulas.
-
-        double x = globe.getEquatorialRadius() * longitude.radians + xOffset;
-
-        double ecc = Math.sqrt(globe.getEccentricitySquared());
-        double sinPhi = Math.sin(latitude.radians);
-        double s = ((1 + sinPhi) / (1 - sinPhi)) * Math.pow((1 - ecc * sinPhi) / (1 + ecc * sinPhi), ecc);
-        double y = 0.5 * globe.getEquatorialRadius() * Math.log(s);
-
-        return new Vec4(x, y, metersElevation);
+        
+      	double rMax = globe.getMaximumRadius();
+    	double rMin = globe.getPolarRadius();
+     
+        
+        double x=rMax * Math.toRadians(longitude.degrees);
+		
+		double es = 1 - (Math.pow(rMin / rMax, 2));
+		double ecc = Math.sqrt(es);
+		
+		double p = Math.toRadians(latitude.degrees);
+		
+		double con = ecc * Math.sin(p);
+		double com = ecc /2.0;
+		double con2 = Math.pow((1 - con)/(1 + con), com);
+		double ts = Math.tan((Math.PI/2.0 - p) / 2.0)/con2;
+		double y = - rMax * Math.log(ts);
+        return new Vec4(x, y);
     }
 
     @Override
@@ -104,42 +113,51 @@ public class ProjectionMercator extends AbstractGeographicProjection
                 double x = eqr * lon + offset_x;
                 double z = metersElevation[pos];
                 out[pos++] = new Vec4(x, y, z);
+
             }
         }
     }
 
+   /**
+    * Code is partly taken from the source http://wiki.openstreetmap.org/wiki/Mercator#JavaScript
+    */
     @Override
     public Position cartesianToGeographic(Globe globe, Vec4 cart, Vec4 offset)
     {
-        double xOffset = offset != null ? offset.x : 0;
-
-        // See "Map Projections: A Working Manual", pages 45 and 19 for the source of the below formulas.
-
-        double ecc2 = globe.getEccentricitySquared();
-        double ecc4 = ecc2 * ecc2;
-        double ecc6 = ecc4 * ecc2;
-        double ecc8 = ecc6 * ecc2;
-        double t = Math.pow(Math.E, -cart.y / globe.getEquatorialRadius());
-
-        double A = Math.PI / 2 - 2 * Math.atan(t);
-        double B = ecc2 / 2 + 5 * ecc4 / 24 + ecc6 / 12 + 13 * ecc8 / 360;
-        double C = 7 * ecc4 / 48 + 29 * ecc6 / 240 + 811 * ecc8 / 11520;
-        double D = 7 * ecc6 / 120 + 81 * ecc8 / 1120;
-        double E = 4279 * ecc8 / 161280;
-
-        double Ap = A - C + E;
-        double Bp = B - 3 * D;
-        double Cp = 2 * C - 8 * E;
-        double Dp = 4 * D;
-        double Ep = 8 * E;
-
-        double s2p = Math.sin(2 * A);
-
-        double lat = Ap + s2p * (Bp + s2p * (Cp + s2p * (Dp + Ep * s2p)));
-
-        return Position.fromRadians(lat, (cart.x - xOffset) / globe.getEquatorialRadius(), cart.z);
+    	
+    	double rMax = globe.getMaximumRadius();
+    	double rMin = globe.getPolarRadius();
+     
+    	double lon=Math.toDegrees(((cart.x/rMax)));
+		
+		double temp = rMin / rMax;
+		double e = Math.sqrt(1.0 - (temp * temp));
+		double lat=Math.toDegrees(pj_phi2( Math.exp( 0-(cart.y/rMax)), e));
+		
+    	return new Position(Angle.fromDegrees(lat), Angle.fromDegrees(lon), cart.z);
     }
 
+
+	public static double pj_phi2 (double ts, double e) 
+	{
+		double i = 15;
+		
+		double EPS = 1E-10;
+		double p;
+		double con;
+		double dp;
+		double ecc = e / 2.0;
+		p = Math.PI/2.0 - 2 * Math.atan (ts);
+		do 
+		{
+			con = e * Math.sin (p);
+			dp = Math.PI/2.0 - 2 * Math.atan (ts * Math.pow((1 - con) / (1 + con), ecc)) - p;
+			p += dp;
+			
+		} 
+		while ( Math.abs(dp)>EPS && --i > 0);
+		return p;
+	}
     @Override
     public Vec4 northPointingTangent(Globe globe, Angle latitude, Angle longitude)
     {
