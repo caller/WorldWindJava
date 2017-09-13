@@ -244,6 +244,10 @@ public class ColladaNode extends ColladaAbstractObject implements ColladaRendera
             super.setField(keyName, value);
         }
     }
+    
+    public List<ColladaInstanceGeometry> getGeometries() {
+        return this.geometries != null ? this.geometries : Collections.<ColladaInstanceGeometry>emptyList();
+    }
 
     /**
      * Indicates the children of this node. Children may be other node elements contained directly within this node, or
@@ -261,7 +265,7 @@ public class ColladaNode extends ColladaAbstractObject implements ColladaRendera
      *
      * @return The matrix specified in this node. Returns the identity matrix if the node does not specify a matrix.
      */
-    protected Matrix getMatrix()
+    public Matrix getMatrix()
     {
         if (this.matrix != null)
             return this.matrix;
