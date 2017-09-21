@@ -20,6 +20,7 @@ import javax.media.opengl.*;
 import java.awt.*;
 import java.util.*;
 import java.util.List;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * @author tag
@@ -943,7 +944,7 @@ public class Polyline extends AVListImpl implements Renderable, OrderedRenderabl
     protected void makeVertices(DrawContext dc)
     {
         if (this.currentSpans == null)
-            this.currentSpans = new ArrayList<List<Vec4>>();
+            this.currentSpans = new CopyOnWriteArrayList<List<Vec4>>();
         else
             this.currentSpans.clear();
 
@@ -984,7 +985,7 @@ public class Polyline extends AVListImpl implements Renderable, OrderedRenderabl
 
     protected void addSpan(ArrayList<Vec4> span)
     {
-        if (span != null && span.size() > 0)
+        if (span != null && span.size() > 0 && currentSpans != null)
             this.currentSpans.add(span);
     }
 
