@@ -203,6 +203,12 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
         this.stopGoToAnimators();
         this.stopUserInputAnimators(VIEW_ANIM_HEADING, VIEW_ANIM_PITCH, VIEW_ANIM_ZOOM, VIEW_ANIM_EYE);
 
+
+        Point point = getMousePoint();//constrainToSourceBounds(getMousePoint(), getWorldWindow());
+        Point lastPoint = getLastMousePoint();//constrainToSourceBounds(getLastMousePoint(), getWorldWindow());
+        if(!isInsideTheBounds(point, getWorldWindow()) || !isInsideTheBounds(lastPoint, getWorldWindow())){
+            return;
+        }
         if (actionAttributes.getMouseActions() != null)
         {
             // Normalize the forward and right magnitudes.
@@ -213,8 +219,7 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
                 sideInput /= length;
             }
 
-            Point point = constrainToSourceBounds(getMousePoint(), getWorldWindow());
-            Point lastPoint = constrainToSourceBounds(getLastMousePoint(), getWorldWindow());
+
             if (getSelectedPosition() == null)
             {
                 // Compute the current selected position if none exists. This happens if the user starts dragging when
@@ -256,11 +261,23 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
 
         // Cursor is off the globe, we potentially want to simulate globe dragging.
         // or this is a keyboard event.
-        Angle forwardChange = Angle.fromDegrees(
-            forwardInput * getScaleValueHorizTransRel(deviceAttributes, actionAttributes));
-        Angle sideChange = Angle.fromDegrees(
-            sideInput * getScaleValueHorizTransRel(deviceAttributes, actionAttributes));
-        onHorizontalTranslateRel(forwardChange, sideChange, actionAttributes);
+        if(actionAttributes.getKeyActions() != null || isOutOfTheGlobe(point) || isOutOfTheGlobe(lastPoint)){
+            Angle forwardChange = Angle.fromDegrees(
+                forwardInput * getScaleValueHorizTransRel(deviceAttributes, actionAttributes));
+            Angle sideChange = Angle.fromDegrees(
+                sideInput * getScaleValueHorizTransRel(deviceAttributes, actionAttributes));
+
+            onHorizontalTranslateRel(forwardChange, sideChange, actionAttributes);
+        }
+    }
+
+    private boolean isOutOfTheGlobe(Point point) {
+
+
+        Line ray = getWorldWindow().getView().computeRayFromScreenPoint(point.getX(), point.getY());
+        Intersection[] intersections = this.wwd.getModel().getGlobe().intersect(ray);
+
+        return intersections == null || intersections.length == 0 ? true : false;
     }
 
     protected void onHorizontalTranslateRel(Angle forwardChange, Angle sideChange,

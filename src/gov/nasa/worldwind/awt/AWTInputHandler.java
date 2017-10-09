@@ -354,7 +354,7 @@ public class AWTInputHandler extends WWObjectImpl
         {
             if (!mouseEvent.isConsumed())
             {
-                this.wwd.getView().getViewInputHandler().mouseClicked(mouseEvent);
+                //this.wwd.getView().getViewInputHandler().mouseClicked(mouseEvent);
             }
         }
     }

@@ -931,7 +931,29 @@ public abstract class AbstractViewInputHandler implements ViewInputHandler, java
 
         return slope - 1.0;
     }
+    protected static boolean isInsideTheBounds(Point point, Object source)
+    {
+        if (point == null)
+            return false;
 
+        if (!(source instanceof Component))
+            return false;
+
+        Component c = (Component) source;
+
+        int x = (int) point.getX();
+
+        if (x < 0 || x > c.getWidth()){
+            return false;
+        }
+
+        int y = (int) point.getY();
+        if (y < 0 || y > c.getHeight()){
+            return false;
+        }
+
+        return true;
+    }
     protected static Point constrainToSourceBounds(Point point, Object source)
     {
         if (point == null)
