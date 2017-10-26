@@ -13,7 +13,7 @@
          on the current machine, resulting in unpredictable class versions.
 
          The javac compiler argument '-Xlint:unchecked' is specified in order to give more detail for unchecked
-         conversion warnings. This argument is specified in the World Wind Java IntelliJ IDEA project. Its use here
+         conversion validation. This argument is specified in the World Wind Java IntelliJ IDEA project. Its use here
          keeps ANT compiled classes in sync with the IntelliJ IDEA compiled classes. -->
 
     <macrodef name="compileJava">

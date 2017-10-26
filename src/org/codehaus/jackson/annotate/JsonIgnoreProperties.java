@@ -38,7 +38,7 @@ public @interface JsonIgnoreProperties
      * unrecognized properties during deserialization.
      * If true, all properties that are unrecognized -- that is,
      * there are no setters or creators that accept them -- are
-     * ignored without warnings (although handlers for unknown
+     * ignored without validation (although handlers for unknown
      * properties, if any, will still be called) without
      * exception.
      *<p>
