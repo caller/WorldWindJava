@@ -48,7 +48,7 @@
     <Property name="gov.nasa.worldwind.avkey.SceneControllerClassName"
               value="gov.nasa.worldwind.StereoOptionSceneController"/>
     <Property name="gov.nasa.worldwind.avkey.NetworkStatusClassName"
-              value="gov.nasa.worldwind.util.BasicNetworkStatus"/>
+              value="com.intel.missioncontrol.networking.NetworkStatusProvider"/>
     <Property name="gov.nasa.worldwind.render.PointPlacemarkAttributes.DefaultImagePath"
               value="images/pushpins/plain-yellow.png"/>
     <Property name="gov.nasa.worldwind.render.PointPlacemarkAttributes.DefaultLabelFont"
