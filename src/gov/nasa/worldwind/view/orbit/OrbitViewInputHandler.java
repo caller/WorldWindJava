@@ -420,13 +420,15 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
 
         if (actionAttributes.getMouseActions() != null)
         {
-            // Switch the direction of heading change depending on whether the cursor is above or below
-            // the center of the screen.
-            if (getWorldWindow() instanceof Component)
-            {
-                if (getMousePoint().y < ((Component) getWorldWindow()).getHeight() / 2)
+            if (isFlipViewRotationEnabled()) {
+                // Switch the direction of heading change depending on whether the cursor is above or below
+                // the center of the screen.
+                if (getWorldWindow() instanceof Component)
                 {
-                    headingInput = -headingInput;
+                    if (getMousePoint().y < ((Component) getWorldWindow()).getHeight() / 2)
+                    {
+                        headingInput = -headingInput;
+                    }
                 }
             }
         }

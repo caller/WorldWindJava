@@ -236,6 +236,8 @@ public class ColladaMeshShape extends AbstractGeneralShape
         shape.bindMaterial = bindMaterial;
         shape.elementType = GL.GL_TRIANGLES;
         shape.vertsPerShape = 3;
+        shape.normalAttrs = new BasicShapeAttributes();
+        shape.normalAttrs.setEnableLighting(true);
 
         return shape;
     }
@@ -1192,6 +1194,8 @@ public class ColladaMeshShape extends AbstractGeneralShape
      */
     protected String getTextureSource(ColladaAbstractGeometry geometry)
     {
+    	if (this.bindMaterial == null)
+            return null;
         ColladaTechniqueCommon techniqueCommon = this.bindMaterial.getTechniqueCommon();
         if (techniqueCommon == null)
             return null;
@@ -1298,6 +1302,8 @@ public class ColladaMeshShape extends AbstractGeneralShape
      */
     protected ColladaEffect getEffect(ColladaAbstractGeometry geometry)
     {
+    	if (this.bindMaterial == null)
+            return null;
         ColladaTechniqueCommon techniqueCommon = this.bindMaterial.getTechniqueCommon();
         if (techniqueCommon == null)
             return null;

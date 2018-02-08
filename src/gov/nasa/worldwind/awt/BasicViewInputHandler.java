@@ -40,6 +40,10 @@ public abstract class BasicViewInputHandler extends AbstractViewInputHandler
 
     protected abstract void onResetHeadingPitchRoll(ViewInputAttributes.ActionAttributes actionAttribs);
 
+    protected boolean isFlipViewRotationEnabled() {
+        return false;
+    }
+
     public class RotateActionListener extends ViewInputActionHandler
     {
         public boolean inputActionPerformed(AbstractViewInputHandler inputHandler, KeyEventState keys, String target,
@@ -221,7 +225,7 @@ public abstract class BasicViewInputHandler extends AbstractViewInputHandler
                     (ViewInputAttributes.ActionAttributes.MouseAction) b;
                 if ((mouseEvent.getModifiersEx() & buttonAction.mouseButton) != 0)
                 {
-                    handleThisEvent = true;    
+                    handleThisEvent = true;
                 }
             }
             if (!handleThisEvent)
@@ -673,7 +677,7 @@ public abstract class BasicViewInputHandler extends AbstractViewInputHandler
 
         if (!eventHandled)
         {
-            super.handleKeyPressed(e);    
+            super.handleKeyPressed(e);
         }
 
 
