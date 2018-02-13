@@ -959,22 +959,37 @@ public abstract class AbstractViewInputHandler implements ViewInputHandler, java
         if (point == null)
             return null;
 
-        if (!(source instanceof Component))
+        int width;
+        int height;
+        if (source instanceof Component)
+        {
+            Component c = (Component)source;
+            width = c.getWidth();
+            height = c.getHeight();
+        }
+        else if (source instanceof javafx.scene.Node)
+        {
+            javafx.scene.Node node = (javafx.scene.Node)source;
+            javafx.geometry.Bounds bounds = node.getBoundsInLocal();
+            width = (int)bounds.getWidth();
+            height = (int)bounds.getHeight();
+        }
+        else
+        {
             return point;
-
-        Component c = (Component) source;
+        }
 
         int x = (int) point.getX();
         if (x < 0)
             x = 0;
-        if (x > c.getWidth())
-            x = c.getWidth();
+        if (x > width)
+            x = width;
 
         int y = (int) point.getY();
         if (y < 0)
             y = 0;
-        if (y > c.getHeight())
-            y = c.getHeight();
+        if (y > height)
+            y = height;
 
         return new Point(x, y);
     }

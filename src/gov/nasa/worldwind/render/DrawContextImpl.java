@@ -52,7 +52,7 @@ public class DrawContextImpl extends WWObjectImpl implements DrawContext
      */
     protected PickedObjectList objectsInPickRect = new PickedObjectList();
     protected int uniquePickNumber = 0;
-    protected Color clearColor = new Color(0, 0, 0, 0);
+    protected Color clearColor = new Color(0, 0, 0, 255);
     /** Buffer of RGB colors used to read back the framebuffer's colors and store them in client memory. */
     protected ByteBuffer pixelColors;
     /**

@@ -14,6 +14,7 @@ import gov.nasa.worldwind.util.Logging;
 public class RenderingEvent extends WWEvent
 {
     public static final String BEFORE_RENDERING = "gov.nasa.worldwind.RenderingEvent.BeforeRendering";
+    public static final String AFTER_RENDERING = "gov.nasa.worldwind.RenderingEvent.AfterRendering";
     public static final String BEFORE_BUFFER_SWAP = "gov.nasa.worldwind.RenderingEvent.BeforeBufferSwap";
     public static final String AFTER_BUFFER_SWAP = "gov.nasa.worldwind.RenderingEvent.AfterBufferSwap";
 

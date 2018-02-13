@@ -203,12 +203,9 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
         this.stopGoToAnimators();
         this.stopUserInputAnimators(VIEW_ANIM_HEADING, VIEW_ANIM_PITCH, VIEW_ANIM_ZOOM, VIEW_ANIM_EYE);
 
-
-        Point point = getMousePoint();//constrainToSourceBounds(getMousePoint(), getWorldWindow());
-        Point lastPoint = getLastMousePoint();//constrainToSourceBounds(getLastMousePoint(), getWorldWindow());
-        if(!isInsideTheBounds(point, getWorldWindow()) || !isInsideTheBounds(lastPoint, getWorldWindow())){
-            return;
-        }
+        Point point = constrainToSourceBounds(getMousePoint(), getWorldWindow());
+        Point lastPoint = constrainToSourceBounds(getLastMousePoint(), getWorldWindow());
+        
         if (actionAttributes.getMouseActions() != null)
         {
             // Normalize the forward and right magnitudes.
