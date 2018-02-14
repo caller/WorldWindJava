@@ -21,7 +21,7 @@ import java.beans.*;
 import java.util.concurrent.*;
 import java.util.logging.Level;
 
-class WWOffscreenDrawable extends JfxWorldWindowImpl
+public class WWOffscreenDrawable extends JfxWorldWindowImpl
 {
     // Default time in milliseconds that the view must remain unchanged before
     // the {@link View#VIEW_STOPPED} message is sent.
