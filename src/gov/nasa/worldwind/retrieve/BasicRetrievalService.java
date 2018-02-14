@@ -147,7 +147,8 @@ public final class BasicRetrievalService extends WWObjectImpl
 
         private RetrievalExecutor(int poolSize, int queueSize)
         {
-            super(poolSize, poolSize, THREAD_TIMEOUT, TimeUnit.SECONDS, new PriorityBlockingQueue<Runnable>(queueSize),
+            super(poolSize, poolSize, THREAD_TIMEOUT, TimeUnit.SECONDS,
+                new PriorityBlockingQueue<Runnable>(queueSize),
                 new ThreadFactory()
                 {
                     public Thread newThread(Runnable runnable)
@@ -221,8 +222,6 @@ public final class BasicRetrievalService extends WWObjectImpl
             BasicRetrievalService.this.activeTasks.add(task);
 
             thread.setName(RUNNING_THREAD_NAME_PREFIX + task.getRetriever().getName());
-            thread.setPriority(Thread.MIN_PRIORITY); // Subordinate thread priority to rendering
-            thread.setUncaughtExceptionHandler(BasicRetrievalService.this);
 
             super.beforeExecute(thread, runnable);
         }
@@ -247,6 +246,8 @@ public final class BasicRetrievalService extends WWObjectImpl
             RetrievalTask task = (RetrievalTask) runnable;
             BasicRetrievalService.this.activeTasks.remove(task);
             task.retriever.setEndTime(System.currentTimeMillis());
+
+
 
             try
             {

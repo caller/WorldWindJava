@@ -125,8 +125,6 @@ public class BasicScheduledTaskService extends WWObjectImpl
 
             if (RUNNING_THREAD_NAME_PREFIX != null)
                 thread.setName(RUNNING_THREAD_NAME_PREFIX + runnable);
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.setUncaughtExceptionHandler(BasicScheduledTaskService.this);
 
             super.beforeExecute(thread, runnable);
         }

@@ -116,8 +116,6 @@ public class ThreadedTaskService extends WWObjectImpl implements TaskService, Th
 
             if (RUNNING_THREAD_NAME_PREFIX != null)
                 thread.setName(RUNNING_THREAD_NAME_PREFIX + runnable);
-            thread.setPriority(Thread.MIN_PRIORITY);
-            thread.setUncaughtExceptionHandler(ThreadedTaskService.this);
 
             super.beforeExecute(thread, runnable);
         }
