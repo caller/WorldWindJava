@@ -311,7 +311,7 @@ public class WWOffscreenDrawable extends JfxWorldWindowImpl
         }
     };
 
-    WWOffscreenDrawable() {
+    public WWOffscreenDrawable() {
         SceneController sc = getSceneController();
         if (sc != null)
         {
