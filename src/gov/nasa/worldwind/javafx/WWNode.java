@@ -290,12 +290,14 @@ public class WWNode extends ImageNode implements WorldWindow
     @Override
     public void addSelectListener(SelectListener listener)
     {
+        wwd.getInputHandler().addSelectListener(listener);
         wwd.addSelectListener(listener);
     }
 
     @Override
     public void removeSelectListener(SelectListener listener)
     {
+        wwd.getInputHandler().removeSelectListener(listener);
         wwd.removeSelectListener(listener);
     }
 
