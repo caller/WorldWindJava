@@ -386,17 +386,16 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
         if (wwd != null)
         {
-            Node c = (Node)wwd;
-            c.setOnKeyPressed(null);
-            c.setOnKeyReleased(null);
-            c.setOnKeyTyped(null);
-            c.setOnMousePressed(null);
-            c.setOnMouseReleased(null);
-            c.setOnMouseMoved(null);
-            c.setOnMouseClicked(null);
-            c.setOnMouseDragged(null);
-            c.setOnScroll(null);
-            c.setOnZoom(null);
+            Node node = (Node)wwd;
+            node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPressedHandler);
+            node.removeEventHandler(KeyEvent.KEY_RELEASED, keyReleasedHandler);
+            node.removeEventHandler(KeyEvent.KEY_TYPED, keyTypedHandler);
+            node.removeEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedHandler);
+            node.removeEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleasedHandler);
+            node.removeEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
+            node.removeEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedHandler);
+            node.removeEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
+            node.removeEventHandler(ScrollEvent.SCROLL, scrollHandler);
 
             if (selectListener != null)
             {
@@ -416,17 +415,16 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
         }
 
         wwd.getView().getViewInputHandler().setWorldWindow(wwd);
-        Node c = (Node)wwd;
-        c.setOnKeyPressed(keyPressedHandler);
-        c.setOnKeyReleased(keyReleasedHandler);
-        c.setOnKeyTyped(keyTypedHandler);
-        c.setOnMousePressed(mousePressedHandler);
-        c.setOnMouseReleased(mouseReleasedHandler);
-        c.setOnMouseMoved(mouseMovedHandler);
-        c.setOnMouseClicked(mouseClickedHandler);
-        c.setOnMouseDragged(mouseDraggedHandler);
-        c.setOnScroll(scrollHandler);
-        //c.setOnZoom(zoomHandler);
+        Node node = (Node)wwd;
+        node.addEventHandler(KeyEvent.KEY_PRESSED, keyPressedHandler);
+        node.addEventHandler(KeyEvent.KEY_RELEASED, keyReleasedHandler);
+        node.addEventHandler(KeyEvent.KEY_TYPED, keyTypedHandler);
+        node.addEventHandler(MouseEvent.MOUSE_PRESSED, mousePressedHandler);
+        node.addEventHandler(MouseEvent.MOUSE_RELEASED, mouseReleasedHandler);
+        node.addEventHandler(MouseEvent.MOUSE_MOVED, mouseMovedHandler);
+        node.addEventHandler(MouseEvent.MOUSE_CLICKED, mouseClickedHandler);
+        node.addEventHandler(MouseEvent.MOUSE_DRAGGED, mouseDraggedHandler);
+        node.addEventHandler(ScrollEvent.SCROLL, scrollHandler);
 
         selectListener = new SelectListener()
         {

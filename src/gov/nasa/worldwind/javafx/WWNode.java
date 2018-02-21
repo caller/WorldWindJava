@@ -14,7 +14,11 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.pick.PickedObjectList;
 import gov.nasa.worldwind.util.*;
 import javafx.beans.property.*;
+import javafx.event.*;
+import javafx.event.EventHandler;
 import javafx.scene.image.*;
+import javafx.scene.input.*;
+
 import javax.media.opengl.*;
 import java.beans.*;
 import java.lang.reflect.*;
@@ -117,6 +121,17 @@ public class WWNode extends ImageNode implements WorldWindow
         }
     };
 
+    private final EventHandler<Event> requestFocusHandler = new EventHandler<Event>()
+    {
+        @Override
+        public void handle(Event event)
+        {
+            if (!isFocused()) {
+                requestFocus();
+            }
+        }
+    };
+
     public WWNode()
     {
         GLProfile profile = Configuration.getMaxCompatibleGLProfile();
@@ -137,6 +152,8 @@ public class WWNode extends ImageNode implements WorldWindow
         WorldWind.addPropertyChangeListener(WorldWind.SHUTDOWN_EVENT, wwd);
 
         setScaleY(-1);
+        addEventHandler(MouseEvent.MOUSE_PRESSED, requestFocusHandler);
+        addEventHandler(TouchEvent.TOUCH_PRESSED, requestFocusHandler);
     }
 
     public double getWidth()
