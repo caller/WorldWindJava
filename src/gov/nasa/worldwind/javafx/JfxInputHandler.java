@@ -297,9 +297,9 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                 && !pickedObjects.getTopPickedObject().isTerrain())
             {
                 // Something is under the cursor, so it's deemed "selected".
-                if (event.isPrimaryButtonDown())
+                if (event.getButton() == MouseButton.PRIMARY)
                 {
-                    if (mouseEvent.getClickCount() <= 1)
+                    if (event.getClickCount() <= 1)
                     {
                         callSelectListeners(new SelectEvent(wwd, SelectEvent.LEFT_CLICK, mouseEvent, pickedObjects));
                     }
@@ -310,7 +310,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                                 wwd, SelectEvent.LEFT_DOUBLE_CLICK, mouseEvent, pickedObjects));
                     }
                 }
-                else if (event.isSecondaryButtonDown())
+                else if (event.getButton() == MouseButton.SECONDARY)
                 {
                     callSelectListeners(new SelectEvent(wwd, SelectEvent.RIGHT_CLICK, mouseEvent, pickedObjects));
                 }
