@@ -950,7 +950,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             id,
             System.currentTimeMillis(),
             getModifiers(event),
-            event.getCode().ordinal(),
+            id == java.awt.event.KeyEvent.KEY_TYPED ? java.awt.event.KeyEvent.VK_UNDEFINED : event.getCode().ordinal(),
             event.getCharacter().charAt(0));
     }
 }
