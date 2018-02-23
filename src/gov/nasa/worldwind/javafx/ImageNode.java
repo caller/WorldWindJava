@@ -19,7 +19,7 @@ import javafx.scene.*;
 import javafx.scene.image.*;
 import java.util.*;
 
-abstract class ImageNode extends Node
+class ImageNode extends Node
 {
     ImageNode() {
         setAccessibleRole(AccessibleRole.IMAGE_VIEW);

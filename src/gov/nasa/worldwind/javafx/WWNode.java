@@ -14,10 +14,12 @@ import gov.nasa.worldwind.geom.Position;
 import gov.nasa.worldwind.pick.PickedObjectList;
 import gov.nasa.worldwind.util.*;
 import javafx.beans.property.*;
+import javafx.beans.value.*;
 import javafx.event.*;
 import javafx.event.EventHandler;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
+import javafx.scene.layout.Region;
 
 import javax.media.opengl.*;
 import java.beans.*;
@@ -25,7 +27,7 @@ import java.lang.reflect.*;
 import java.nio.ByteBuffer;
 import java.util.*;
 
-public class WWNode extends ImageNode implements WorldWindow
+public class WWNode extends Region implements WorldWindow
 {
     private static final Field prismImagePixelBufferField;
     private static final Field prismImageSerialField;
@@ -66,24 +68,7 @@ public class WWNode extends ImageNode implements WorldWindow
     private GLOffscreenAutoDrawable offscreenDrawable;
     private WritableImage writableImage;
     private ByteBuffer pixelBuffer;
-
-    private final DoubleProperty width = new SimpleDoubleProperty() {
-        @Override
-        protected void invalidated()
-        {
-            super.invalidated();
-            sizeInvalidated();
-        }
-    };
-
-    private final DoubleProperty height = new SimpleDoubleProperty() {
-        @Override
-        protected void invalidated()
-        {
-            super.invalidated();
-            sizeInvalidated();
-        }
-    };
+    private final ImageNode imageNode = new ImageNode();
 
     private final RenderingListener renderingListener = new RenderingListener()
     {
@@ -132,6 +117,15 @@ public class WWNode extends ImageNode implements WorldWindow
         }
     };
 
+    private final ChangeListener<Number> sizeChangedHandler = new ChangeListener<Number>()
+    {
+        @Override
+        public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue)
+        {
+            sizeInvalidated();
+        }
+    };
+
     public WWNode()
     {
         GLProfile profile = Configuration.getMaxCompatibleGLProfile();
@@ -154,36 +148,9 @@ public class WWNode extends ImageNode implements WorldWindow
         setScaleY(-1);
         addEventHandler(MouseEvent.MOUSE_PRESSED, requestFocusHandler);
         addEventHandler(TouchEvent.TOUCH_PRESSED, requestFocusHandler);
-    }
-
-    public double getWidth()
-    {
-        return width.get();
-    }
-
-    public void setWidth(double width)
-    {
-        this.width.set(width);
-    }
-
-    public double getHeight()
-    {
-        return height.get();
-    }
-
-    public void setHeight(double height)
-    {
-        this.height.set(height);
-    }
-
-    public DoubleProperty widthProperty()
-    {
-        return width;
-    }
-
-    public DoubleProperty heightProperty()
-    {
-        return height;
+        widthProperty().addListener(sizeChangedHandler);
+        heightProperty().addListener(sizeChangedHandler);
+        getChildren().add(imageNode);
     }
 
     /** Constructs and attaches the {@link View} for this <code>WorldWindow</code>. */
@@ -199,18 +166,18 @@ public class WWNode extends ImageNode implements WorldWindow
     }
 
     private void sizeInvalidated() {
-        int width = (int)this.width.get();
-        int height = (int)this.height.get();
+        int width = (int)getWidth();
+        int height = (int)getHeight();
 
         if (width > 0 && height > 0) {
             writableImage = new WritableImage(width, height);
             pixelBuffer = getPixelBuffer(writableImage);
             offscreenDrawable.setSize(width, height);
-            setImage(writableImage);
+            imageNode.setImage(writableImage);
         } else {
             writableImage = null;
             pixelBuffer = null;
-            setImage(null);
+            imageNode.setImage(null);
         }
     }
 
