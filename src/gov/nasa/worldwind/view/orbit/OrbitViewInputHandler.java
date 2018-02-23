@@ -5,6 +5,8 @@
  */
 package gov.nasa.worldwind.view.orbit;
 
+
+import gov.nasa.worldwind.javafx.WWNode;
 import gov.nasa.worldwind.*;
 import gov.nasa.worldwind.animation.*;
 import gov.nasa.worldwind.avlist.*;
@@ -437,7 +439,11 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
             if (isFlipViewRotationEnabled()) {
                 // Switch the direction of heading change depending on whether the cursor is above or below
                 // the center of the screen.
-                if (getWorldWindow() instanceof Component)
+                if (getWorldWindow() instanceof WWNode) {
+                    if (getMousePoint().y < ((WWNode)getWorldWindow()).getHeight() / 2) {
+                        headingInput = -headingInput;
+                    }
+                } else if (getWorldWindow() instanceof Component)
                 {
                     if (getMousePoint().y < ((Component) getWorldWindow()).getHeight() / 2)
                     {
