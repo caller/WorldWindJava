@@ -29,7 +29,7 @@ import java.util.concurrent.locks.ReentrantLock;
  * cached content will be released. This approach allows to use almost entire available heap memory to cache rasters and
  * release memory when more memory is needed to the application itself.
  */
-public class BasicRasterServerCache extends BasicMemoryCache
+public class BasicRasterServerCache extends OldBasicMemoryCache
 {
     protected static final int DEFAULT_INACCESSIBLE_MEMORY_SIZE = 100 * 1024 * 1024;
     protected static final long DEFAULT_PRUNER_THREAD_TIMEOUT_MSEC = 5000L; // 20 secs = 20,000 milli-seconds
@@ -66,7 +66,7 @@ public class BasicRasterServerCache extends BasicMemoryCache
     @Override
     public boolean add(Object key, Object clientObject, long clientObjectSize)
     {
-        BasicMemoryCache.CacheEntry entry = new BasicMemoryCache.CacheEntry(key, clientObject, clientObjectSize);
+        OldBasicMemoryCache.CacheEntry entry = new OldBasicMemoryCache.CacheEntry(key, clientObject, clientObjectSize);
 
         synchronized (this.lock)
         {
