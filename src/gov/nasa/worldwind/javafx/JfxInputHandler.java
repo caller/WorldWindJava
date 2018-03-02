@@ -23,6 +23,33 @@ import java.beans.PropertyChangeEvent;
 
 public class JfxInputHandler extends WWObjectImpl implements InputHandler
 {
+    private static final double DISCARD_CLICK_DEFAULT_MOVE_DISTANCE = 10;
+
+    private class MouseDraggingInfo {
+        private final Point pressedPoint;
+        private boolean isCanceled;
+
+        MouseDraggingInfo(Point point) {
+            pressedPoint = point;
+        }
+
+        void update(Point point) {
+            if (isCanceled) {
+                return;
+            }
+
+            double dx = point.x - pressedPoint.x;
+            double dy = point.y - pressedPoint.y;
+            if (Math.sqrt(dx * dx + dy * dy) >= discardClickMoveDistance) {
+                isCanceled = true;
+            }
+        }
+
+        boolean isCanceled() {
+            return isCanceled;
+        }
+    }
+
     private WorldWindow wwd;
     private EventListenerList eventListeners = new EventListenerList();
     private PickedObjectList hoverObjects;
@@ -31,6 +58,9 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
     private Point mousePoint;
     private boolean isHovering = false;
     private boolean isDragging = false;
+    private MouseDraggingInfo primaryButtonDraggingInfo;
+    private MouseDraggingInfo secondaryButtonDraggingInfo;
+    private double discardClickMoveDistance = DISCARD_CLICK_DEFAULT_MOVE_DISTANCE;
     private JfxTimer hoverTimer = new JfxTimer(Duration.millis(600), new Runnable()
     {
         @Override
@@ -138,6 +168,15 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                 wwd.redrawNow();
             }
 
+            if (event.getButton() == MouseButton.PRIMARY)
+            {
+                primaryButtonDraggingInfo = new MouseDraggingInfo(newPoint);
+            }
+            else if (event.getButton() == MouseButton.SECONDARY)
+            {
+                secondaryButtonDraggingInfo = new MouseDraggingInfo(newPoint);
+            }
+
             objectsAtButtonPress = wwd.getObjectsAtCurrentPosition();
 
             java.awt.event.MouseEvent mouseEvent = convertFxToAwtEvent(event, java.awt.event.MouseEvent.MOUSE_PRESSED);
@@ -232,6 +271,17 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
             Point prevMousePoint = mousePoint;
             mousePoint = convertMousePoint(event);
+
+            if (primaryButtonDraggingInfo != null)
+            {
+                primaryButtonDraggingInfo.update(mousePoint);
+            }
+
+            if (secondaryButtonDraggingInfo != null)
+            {
+                secondaryButtonDraggingInfo.update(mousePoint);
+            }
+
             java.awt.event.MouseEvent mouseEvent = convertFxToAwtEvent(event, java.awt.event.MouseEvent.MOUSE_DRAGGED);
             callMouseDraggedListeners(mouseEvent);
 
@@ -288,6 +338,15 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                 return;
             }
 
+            boolean primaryCanceled = primaryButtonDraggingInfo == null || primaryButtonDraggingInfo.isCanceled();
+            boolean secondaryCanceled = secondaryButtonDraggingInfo == null || secondaryButtonDraggingInfo.isCanceled();
+            primaryButtonDraggingInfo = null;
+            secondaryButtonDraggingInfo = null;
+
+            if (primaryCanceled && secondaryCanceled) {
+                return;
+            }
+
             PickedObjectList pickedObjects = wwd.getObjectsAtCurrentPosition();
 
             java.awt.event.MouseEvent mouseEvent = convertFxToAwtEvent(event, java.awt.event.MouseEvent.MOUSE_CLICKED);
@@ -297,7 +356,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                 && !pickedObjects.getTopPickedObject().isTerrain())
             {
                 // Something is under the cursor, so it's deemed "selected".
-                if (event.getButton() == MouseButton.PRIMARY)
+                if (event.getButton() == MouseButton.PRIMARY && !primaryCanceled)
                 {
                     if (event.getClickCount() <= 1)
                     {
@@ -310,7 +369,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                                 wwd, SelectEvent.LEFT_DOUBLE_CLICK, mouseEvent, pickedObjects));
                     }
                 }
-                else if (event.getButton() == MouseButton.SECONDARY)
+                else if (event.getButton() == MouseButton.SECONDARY && !secondaryCanceled)
                 {
                     callSelectListeners(new SelectEvent(wwd, SelectEvent.RIGHT_CLICK, mouseEvent, pickedObjects));
                 }
@@ -556,6 +615,14 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
     public void setForceRedrawOnMousePressed(boolean forceRedrawOnMousePressed)
     {
         throw new UnsupportedOperationException();
+    }
+
+    public void setDiscardClickMoveDistance(double distanceInPixels) {
+        discardClickMoveDistance = distanceInPixels;
+    }
+
+    public double getDiscardClickMoveDistance() {
+        return discardClickMoveDistance;
     }
 
     protected boolean isPickListEmpty(PickedObjectList pickList)
