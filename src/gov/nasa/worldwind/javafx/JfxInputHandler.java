@@ -15,7 +15,7 @@ import javafx.scene.Node;
 import javafx.scene.input.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.util.Duration;
+import javafx.util.*;
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -388,6 +388,12 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
     private final EventHandler<ScrollEvent> scrollHandler = new EventHandler<ScrollEvent>()
     {
+        private static final int MAX_SCROLL_EVENT_SEPARATION_MILLIS = 100;
+        private static final int PIXELS_PER_SCROLL_STEP = 10;
+
+        private long lastTimestamp = System.currentTimeMillis();
+        private double lastY;
+
         @Override
         public void handle(ScrollEvent event)
         {
@@ -396,7 +402,24 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                 return;
             }
 
-            java.awt.event.MouseWheelEvent mouseWheelEvent = convertFxToAwtEvent(event);
+            long currentTimestamp = System.currentTimeMillis();
+            if (currentTimestamp - lastTimestamp > MAX_SCROLL_EVENT_SEPARATION_MILLIS)
+            {
+                lastTimestamp = currentTimestamp;
+                lastY = 0;
+            }
+
+            lastY += event.getDeltaY();
+            int scrollSteps = (int)lastY / PIXELS_PER_SCROLL_STEP;
+            if (scrollSteps == 0)
+            {
+                return;
+            }
+
+            lastTimestamp = currentTimestamp;
+            lastY = 0;
+
+            java.awt.event.MouseWheelEvent mouseWheelEvent = convertFxToAwtEvent(event, scrollSteps);
             callMouseWheelMovedListeners(mouseWheelEvent);
 
             if (!mouseWheelEvent.isConsumed())
@@ -978,7 +1001,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             buttonType);
     }
 
-    private MouseWheelEvent convertFxToAwtEvent(ScrollEvent event)
+    private MouseWheelEvent convertFxToAwtEvent(ScrollEvent event, int scrollSteps)
     {
         return new MouseWheelEvent(
             dummyComponent,
@@ -991,7 +1014,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             false,
             MouseWheelEvent.WHEEL_UNIT_SCROLL,
             1,
-            -(int)event.getTextDeltaY());
+            -scrollSteps);
     }
 
     private MouseWheelEvent convertFxToAwtEvent(ZoomEvent event)
