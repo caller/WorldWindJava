@@ -404,7 +404,7 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
             return;
 
         RequestTask request = new RequestTask(key, this);
-        WorldWind.getTaskService().addTask(request, tile.getPriority());
+        WorldWind.getTaskService().addTask(request);
     }
 
     protected static class RequestTask implements Runnable
@@ -877,7 +877,7 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
         if (WorldWind.getRetrievalService().contains(retriever))
             return;
 
-        WorldWind.getRetrievalService().runRetriever(retriever, 0d);
+        WorldWind.getRetrievalService().runRetriever(retriever, tile.getPriority());
     }
 
     protected static class DownloadPostProcessor extends AbstractRetrievalPostProcessor
