@@ -394,6 +394,9 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
 
     protected void requestTile(TileKey key)
     {
+        if(WorldWind.isOfflineMode())
+            return;
+
         if (WorldWind.getTaskService().isFull())
             return;
 
@@ -401,7 +404,7 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
             return;
 
         RequestTask request = new RequestTask(key, this);
-        WorldWind.getTaskService().addTask(request);
+        WorldWind.getTaskService().addTask(request, tile.getPriority());
     }
 
     protected static class RequestTask implements Runnable
