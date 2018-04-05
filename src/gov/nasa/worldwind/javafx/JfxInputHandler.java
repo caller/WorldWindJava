@@ -15,7 +15,8 @@ import javafx.scene.Node;
 import javafx.scene.input.*;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.util.*;
+import javafx.util.Duration;
+
 import javax.swing.event.*;
 import java.awt.*;
 import java.awt.event.*;
@@ -25,27 +26,33 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 {
     private static final double DISCARD_CLICK_DEFAULT_MOVE_DISTANCE = 10;
 
-    private class MouseDraggingInfo {
+    private class MouseDraggingInfo
+    {
         private final Point pressedPoint;
         private boolean isCanceled;
 
-        MouseDraggingInfo(Point point) {
+        MouseDraggingInfo(Point point)
+        {
             pressedPoint = point;
         }
 
-        void update(Point point) {
-            if (isCanceled) {
+        void update(Point point)
+        {
+            if (isCanceled)
+            {
                 return;
             }
 
             double dx = point.x - pressedPoint.x;
             double dy = point.y - pressedPoint.y;
-            if (Math.sqrt(dx * dx + dy * dy) >= discardClickMoveDistance) {
+            if (Math.sqrt(dx * dx + dy * dy) >= discardClickMoveDistance)
+            {
                 isCanceled = true;
             }
         }
 
-        boolean isCanceled() {
+        boolean isCanceled()
+        {
             return isCanceled;
         }
     }
@@ -153,7 +160,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
             mousePoint = newPoint;
 
-            //cancelHover();
+            cancelHover();
             cancelDrag();
 
             // If the mouse point has changed then we need to set a new pick point, and redraw the scene because the current
@@ -226,7 +233,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
                 wwd.getView().getViewInputHandler().mouseReleased(mouseEvent);
             }
 
-            //doHover(true);
+            doHover(true);
             cancelDrag();
         }
     };
@@ -343,7 +350,8 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             primaryButtonDraggingInfo = null;
             secondaryButtonDraggingInfo = null;
 
-            if (primaryCanceled && secondaryCanceled) {
+            if (primaryCanceled && secondaryCanceled)
+            {
                 return;
             }
 
@@ -410,7 +418,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             }
 
             lastY += event.getDeltaY();
-            int scrollSteps = (int)lastY / PIXELS_PER_SCROLL_STEP;
+            int scrollSteps = (int) lastY / PIXELS_PER_SCROLL_STEP;
             if (scrollSteps == 0)
             {
                 return;
@@ -468,7 +476,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
         if (wwd != null)
         {
-            Node node = (Node)wwd;
+            Node node = (Node) wwd;
             node.removeEventHandler(KeyEvent.KEY_PRESSED, keyPressedHandler);
             node.removeEventHandler(KeyEvent.KEY_RELEASED, keyReleasedHandler);
             node.removeEventHandler(KeyEvent.KEY_TYPED, keyTypedHandler);
@@ -497,7 +505,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
         }
 
         wwd.getView().getViewInputHandler().setWorldWindow(wwd);
-        Node node = (Node)wwd;
+        Node node = (Node) wwd;
         node.addEventHandler(KeyEvent.KEY_PRESSED, keyPressedHandler);
         node.addEventHandler(KeyEvent.KEY_RELEASED, keyReleasedHandler);
         node.addEventHandler(KeyEvent.KEY_TYPED, keyTypedHandler);
@@ -640,11 +648,13 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
         throw new UnsupportedOperationException();
     }
 
-    public void setDiscardClickMoveDistance(double distanceInPixels) {
+    public void setDiscardClickMoveDistance(double distanceInPixels)
+    {
         discardClickMoveDistance = distanceInPixels;
     }
 
-    public double getDiscardClickMoveDistance() {
+    public double getDiscardClickMoveDistance()
+    {
         return discardClickMoveDistance;
     }
 
@@ -856,7 +866,24 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
     private Point convertMousePoint(MouseEvent event)
     {
-        return new Point((int)event.getX(), wwd.getView().getViewport().height - (int)event.getY());
+        double scaleX = 1.0;
+        double scaleY = 1.0;
+        if (wwd instanceof Node)
+        {
+            javafx.scene.Scene scene = ((Node) wwd).getScene();
+            if (scene != null)
+            {
+                javafx.stage.Window window = scene.getWindow();
+                if (window != null)
+                {
+                    scaleX = window.getOutputScaleX();
+                    scaleY = window.getOutputScaleY();
+                }
+            }
+        }
+
+        return new Point((int) (event.getX() * scaleX),
+            wwd.getView().getViewport().height - (int) (event.getY() * scaleY));
     }
 
     private static int getModifiers(MouseEvent event)
@@ -980,6 +1007,22 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
     private java.awt.event.MouseEvent convertFxToAwtEvent(MouseEvent event, int id)
     {
+        double scaleX = 1.0;
+        double scaleY = 1.0;
+        if (wwd instanceof Node)
+        {
+            javafx.scene.Scene scene = ((Node) wwd).getScene();
+            if (scene != null)
+            {
+                javafx.stage.Window window = scene.getWindow();
+                if (window != null)
+                {
+                    scaleX = window.getOutputScaleX();
+                    scaleY = window.getOutputScaleY();
+                }
+            }
+        }
+
         int clickCount = 0;
         int buttonType = 0;
 
@@ -994,8 +1037,8 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             id,
             System.currentTimeMillis(),
             getModifiers(event),
-            (int)event.getX(),
-            wwd.getView().getViewport().height - (int)event.getY(),
+            (int) (event.getX() * scaleX),
+            wwd.getView().getViewport().height - (int) (event.getY() * scaleY),
             clickCount,
             event.isPopupTrigger(),
             buttonType);
@@ -1003,13 +1046,29 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
     private MouseWheelEvent convertFxToAwtEvent(ScrollEvent event, int scrollSteps)
     {
+        double scaleX = 1.0;
+        double scaleY = 1.0;
+        if (wwd instanceof Node)
+        {
+            javafx.scene.Scene scene = ((Node) wwd).getScene();
+            if (scene != null)
+            {
+                javafx.stage.Window window = scene.getWindow();
+                if (window != null)
+                {
+                    scaleX = window.getOutputScaleX();
+                    scaleY = window.getOutputScaleY();
+                }
+            }
+        }
+
         return new MouseWheelEvent(
             dummyComponent,
             MouseWheelEvent.MOUSE_WHEEL,
             System.currentTimeMillis(),
             getModifiers(event),
-            (int)event.getX(),
-            wwd.getView().getViewport().height - (int)event.getY(),
+            (int) (event.getX() * scaleX),
+            wwd.getView().getViewport().height - (int) (event.getY() * scaleY),
             event.getTouchCount(),
             false,
             MouseWheelEvent.WHEEL_UNIT_SCROLL,
@@ -1019,18 +1078,34 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
 
     private MouseWheelEvent convertFxToAwtEvent(ZoomEvent event)
     {
+        double scaleX = 1.0;
+        double scaleY = 1.0;
+        if (wwd instanceof Node)
+        {
+            javafx.scene.Scene scene = ((Node) wwd).getScene();
+            if (scene != null)
+            {
+                javafx.stage.Window window = scene.getWindow();
+                if (window != null)
+                {
+                    scaleX = window.getOutputScaleX();
+                    scaleY = window.getOutputScaleY();
+                }
+            }
+        }
+
         return new MouseWheelEvent(
             dummyComponent,
             MouseWheelEvent.MOUSE_WHEEL,
             System.currentTimeMillis(),
             getModifiers(event),
-            (int)event.getX(),
-            wwd.getView().getViewport().height - (int)event.getY(),
+            (int) (event.getX() * scaleX),
+            wwd.getView().getViewport().height - (int) (event.getY() * scaleY),
             1,
             false,
             MouseWheelEvent.WHEEL_UNIT_SCROLL,
             1,
-            -(int)event.getZoomFactor());
+            -(int) event.getZoomFactor());
     }
 
     private java.awt.event.KeyEvent convertFxToAwtEvent(KeyEvent event, int id)
@@ -1041,7 +1116,7 @@ public class JfxInputHandler extends WWObjectImpl implements InputHandler
             System.currentTimeMillis(),
             getModifiers(event),
             // id == java.awt.event.KeyEvent.KEY_TYPED ? java.awt.event.KeyEvent.VK_UNDEFINED: event.getCode().ordinal() :
-            id == java.awt.event.KeyEvent.KEY_TYPED ? java.awt.event.KeyEvent.VK_UNDEFINED : event.getCode().impl_getCode(),
+            id == java.awt.event.KeyEvent.KEY_TYPED ? java.awt.event.KeyEvent.VK_UNDEFINED : event.getCode().getCode(),
             event.getCharacter().charAt(0));
     }
 }

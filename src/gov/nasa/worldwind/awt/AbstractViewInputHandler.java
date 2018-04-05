@@ -931,29 +931,7 @@ public abstract class AbstractViewInputHandler implements ViewInputHandler, java
 
         return slope - 1.0;
     }
-    protected static boolean isInsideTheBounds(Point point, Object source)
-    {
-        if (point == null)
-            return false;
 
-        if (!(source instanceof Component))
-            return false;
-
-        Component c = (Component) source;
-
-        int x = (int) point.getX();
-
-        if (x < 0 || x > c.getWidth()){
-            return false;
-        }
-
-        int y = (int) point.getY();
-        if (y < 0 || y > c.getHeight()){
-            return false;
-        }
-
-        return true;
-    }
     protected static Point constrainToSourceBounds(Point point, Object source)
     {
         if (point == null)
@@ -969,10 +947,24 @@ public abstract class AbstractViewInputHandler implements ViewInputHandler, java
         }
         else if (source instanceof javafx.scene.Node)
         {
+            double scaleX = 1.0;
+            double scaleY = 1.0;
+
             javafx.scene.Node node = (javafx.scene.Node)source;
+            javafx.scene.Scene scene = node.getScene();
+            if (scene != null)
+            {
+                javafx.stage.Window window = scene.getWindow();
+                if (window != null)
+                {
+                    scaleX = window.getOutputScaleX();
+                    scaleY = window.getOutputScaleY();
+                }
+            }
+
             javafx.geometry.Bounds bounds = node.getBoundsInLocal();
-            width = (int)bounds.getWidth();
-            height = (int)bounds.getHeight();
+            width = (int)(bounds.getWidth() * scaleX);
+            height = (int)(bounds.getHeight() * scaleY);
         }
         else
         {
@@ -993,9 +985,7 @@ public abstract class AbstractViewInputHandler implements ViewInputHandler, java
 
         return new Point(x, y);
     }
-
-
-
+    
     public Point getMouseDownPoint()
     {
         return mouseDownPoint;

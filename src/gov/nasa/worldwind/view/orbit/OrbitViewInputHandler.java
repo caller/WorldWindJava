@@ -436,16 +436,34 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
 
         if (actionAttributes.getMouseActions() != null)
         {
-            if (isFlipViewRotationEnabled()) {
+            if (isFlipViewRotationEnabled())
+            {
+                WorldWindow worldWindow = getWorldWindow();
+
                 // Switch the direction of heading change depending on whether the cursor is above or below
                 // the center of the screen.
-                if (getWorldWindow() instanceof WWNode) {
-                    if (getMousePoint().y < ((WWNode)getWorldWindow()).getHeight() / 2) {
+                if (worldWindow instanceof javafx.scene.Node) {
+                    double scaleY = 1.0;
+
+                    javafx.scene.Node node = (javafx.scene.Node)worldWindow;
+                    javafx.scene.Scene scene = node.getScene();
+                    if (scene != null)
+                    {
+                        javafx.stage.Window window = scene.getWindow();
+                        if (window != null)
+                        {
+                            scaleY = window.getOutputScaleY();
+                        }
+                    }
+
+                    double height = (int)(node.getBoundsInLocal().getHeight() * scaleY);
+                    if (getMousePoint().y < height / 2) {
                         headingInput = -headingInput;
                     }
-                } else if (getWorldWindow() instanceof Component)
+                }
+                else if (worldWindow instanceof Component)
                 {
-                    if (getMousePoint().y < ((Component) getWorldWindow()).getHeight() / 2)
+                    if (getMousePoint().y < ((Component)worldWindow).getHeight() / 2)
                     {
                         headingInput = -headingInput;
                     }
@@ -460,8 +478,6 @@ public class OrbitViewInputHandler extends BasicViewInputHandler
                 headingInput /= length;
                 pitchInput /= length;
             }
-
-
         }
 
         Angle headingChange = Angle.fromDegrees(

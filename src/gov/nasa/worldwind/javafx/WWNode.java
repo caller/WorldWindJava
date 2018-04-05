@@ -17,9 +17,11 @@ import javafx.beans.property.*;
 import javafx.beans.value.*;
 import javafx.event.*;
 import javafx.event.EventHandler;
+import javafx.scene.Scene;
 import javafx.scene.image.*;
 import javafx.scene.input.*;
 import javafx.scene.layout.Region;
+import javafx.stage.Window;
 
 import javax.media.opengl.*;
 import java.beans.*;
@@ -67,8 +69,9 @@ public class WWNode extends Region implements WorldWindow
     private WWOffscreenDrawable wwd;
     private GLOffscreenAutoDrawable offscreenDrawable;
     private WritableImage writableImage;
+    private Object platformImage;
     private ByteBuffer pixelBuffer;
-    private final ImageNode imageNode = new ImageNode();
+    private final ImageView imageView = new ImageView();
 
     private final RenderingListener renderingListener = new RenderingListener()
     {
@@ -77,8 +80,8 @@ public class WWNode extends Region implements WorldWindow
         {
             // identity comparison
             if (pixelBuffer != null && event.getStage() == RenderingEvent.AFTER_RENDERING) {
-                int width = (int)getWidth();
-                int height = (int)getHeight();
+                int width = (int)writableImage.getWidth();
+                int height = (int)writableImage.getHeight();
 
                 GL gl = wwd.getContext().getGL();
                 gl.glReadPixels(0, 0, width, height, GL.GL_BGRA, GL.GL_UNSIGNED_BYTE, pixelBuffer);
@@ -88,7 +91,7 @@ public class WWNode extends Region implements WorldWindow
                 try
                 {
                     pixelsDirtyMethod.invoke(writableImage);
-                    int[] serial = (int[])prismImageSerialField.get(writableImage.impl_getPlatformImage());
+                    int[] serial = (int[])prismImageSerialField.get(platformImage);
                     serial[0]++;
                 }
                 catch (Exception e)
@@ -150,7 +153,8 @@ public class WWNode extends Region implements WorldWindow
         addEventHandler(TouchEvent.TOUCH_PRESSED, requestFocusHandler);
         widthProperty().addListener(sizeChangedHandler);
         heightProperty().addListener(sizeChangedHandler);
-        getChildren().add(imageNode);
+        imageView.setSmooth(false);
+        getChildren().add(imageView);
     }
 
     /** Constructs and attaches the {@link View} for this <code>WorldWindow</code>. */
@@ -166,18 +170,32 @@ public class WWNode extends Region implements WorldWindow
     }
 
     private void sizeInvalidated() {
-        int width = (int)getWidth();
-        int height = (int)getHeight();
+        final Scene scene = getScene();
+        if (scene == null) {
+            return;
+        }
+
+        final Window window = scene.getWindow();
+        if (window == null) {
+            return;
+        }
+
+        int width = (int)(getWidth() * window.getOutputScaleX());
+        int height = (int)(getHeight() * window.getOutputScaleY());
 
         if (width > 0 && height > 0) {
             writableImage = new WritableImage(width, height);
+            platformImage = Toolkit.getImageAccessor().getPlatformImage(writableImage);
             pixelBuffer = getPixelBuffer(writableImage);
             offscreenDrawable.setSize(width, height);
-            imageNode.setImage(writableImage);
+            imageView.setImage(writableImage);
+            imageView.setFitWidth(getWidth());
+            imageView.setFitHeight(getHeight());
         } else {
             writableImage = null;
+            platformImage = null;
             pixelBuffer = null;
-            imageNode.setImage(null);
+            imageView.setImage(null);
         }
     }
 

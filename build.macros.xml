@@ -39,6 +39,8 @@
                     <pathelements/>
                 </classpath>
                 <compilerarg value="-Xlint:unchecked"/>
+                <compilerarg value="--add-exports=javafx.graphics/com.sun.javafx.tk=ALL-UNNAMED"/>
+                <compilerarg value="--add-exports=javafx.graphics/com.sun.prism=ALL-UNNAMED"/>
             </javac>
         </sequential>
     </macrodef>

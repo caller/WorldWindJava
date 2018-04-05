@@ -2190,8 +2190,27 @@ public abstract class AbstractBrowserBalloon extends AbstractBalloon implements 
 
         // Translate AWT coordinates to OpenGL screen coordinates by moving the Y origin from the upper left corner to
         // the lower left corner and flipping the direction of the Y axis.
-        if (context instanceof Component)
+        if (context instanceof javafx.scene.Node)
+        {
+            double scaleY = 1.0;
+
+            javafx.scene.Node node = (javafx.scene.Node)context;
+            javafx.scene.Scene scene = node.getScene();
+            if (scene != null)
+            {
+                javafx.stage.Window window = scene.getWindow();
+                if (window != null)
+                {
+                    scaleY = window.getOutputScaleY();
+                }
+            }
+
+            y = (int)(node.getBoundsInLocal().getHeight() * scaleY) - point.y;
+        }
+        else if (context instanceof Component)
+        {
             y = ((Component) context).getHeight() - point.y;
+        }
 
         // Find the ordered renderable that contains the point.
         Rectangle rect = null;
