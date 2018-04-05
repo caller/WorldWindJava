@@ -985,7 +985,7 @@ public abstract class AbstractViewInputHandler implements ViewInputHandler, java
 
         return new Point(x, y);
     }
-    
+
     public Point getMouseDownPoint()
     {
         return mouseDownPoint;

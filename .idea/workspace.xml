@@ -2,18 +2,8 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="cbe44f0f-47ae-42c2-8e88-bd91e283b8ca" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.macros.xml" beforeDir="false" afterPath="$PROJECT_DIR$/build.macros.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/build.properties" beforeDir="false" afterPath="$PROJECT_DIR$/build.properties" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/gov/nasa/worldwind/awt/AbstractViewInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gov/nasa/worldwind/awt/AbstractViewInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gov/nasa/worldwind/javafx/ImageNode.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gov/nasa/worldwind/javafx/JfxInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gov/nasa/worldwind/javafx/JfxInputHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gov/nasa/worldwind/javafx/WWNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gov/nasa/worldwind/javafx/WWNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gov/nasa/worldwind/render/AbstractBrowserBalloon.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gov/nasa/worldwind/render/AbstractBrowserBalloon.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/gov/nasa/worldwind/view/orbit/OrbitViewInputHandler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/gov/nasa/worldwind/view/orbit/OrbitViewInputHandler.java" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/build/" />
     <ignored path="$PROJECT_DIR$/classes/" />
@@ -38,7 +28,7 @@
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/BasicSceneController.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="68">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
             </state>
           </provider>
         </entry>
@@ -46,7 +36,7 @@
       <file leaf-file-name="BasicOrbitView.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/view/orbit/BasicOrbitView.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
+            <state relative-caret-position="357">
               <caret line="33" column="89" selection-start-line="33" selection-start-column="80" selection-end-line="33" selection-end-column="89" />
             </state>
           </provider>
@@ -55,8 +45,8 @@
       <file leaf-file-name="OrbitViewInputHandler.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/view/orbit/OrbitViewInputHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="447">
-              <caret line="459" column="20" lean-forward="true" selection-start-line="445" selection-start-column="20" selection-end-line="459" selection-end-column="20" />
+            <state relative-caret-position="7531">
+              <caret line="459" column="20" selection-start-line="445" selection-start-column="20" selection-end-line="459" selection-end-column="20" />
             </state>
           </provider>
         </entry>
@@ -64,8 +54,8 @@
       <file leaf-file-name="ContextMenusOnShapes.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwindx/examples/ContextMenusOnShapes.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="311">
-              <caret line="92" column="13" lean-forward="true" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
+            <state relative-caret-position="1309">
+              <caret line="92" column="13" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
             </state>
           </provider>
         </entry>
@@ -73,8 +63,8 @@
       <file leaf-file-name="AbstractBrowserBalloon.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/render/AbstractBrowserBalloon.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="102">
-              <caret line="2186" column="5" lean-forward="true" selection-start-line="2186" selection-start-column="5" selection-end-line="2186" selection-end-column="5" />
+            <state relative-caret-position="36805">
+              <caret line="2186" column="5" selection-start-line="2186" selection-start-column="5" selection-end-line="2186" selection-end-column="5" />
             </state>
           </provider>
         </entry>
@@ -82,8 +72,8 @@
       <file leaf-file-name="AbstractViewInputHandler.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/awt/AbstractViewInputHandler.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="987" column="4" selection-start-line="987" selection-start-column="4" selection-end-line="987" selection-end-column="4" />
+            <state relative-caret-position="389">
+              <caret line="963" selection-start-line="963" selection-end-line="963" />
             </state>
           </provider>
         </entry>
@@ -91,7 +81,7 @@
       <file leaf-file-name="BalloonController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwindx/examples/util/BalloonController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="328">
+            <state relative-caret-position="6528">
               <caret line="409" column="29" selection-start-line="409" selection-start-column="29" selection-end-line="409" selection-end-column="29" />
             </state>
           </provider>
@@ -100,7 +90,7 @@
       <file leaf-file-name="BalloonResizeController.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwindx/examples/util/BalloonResizeController.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="226">
+            <state relative-caret-position="2159">
               <caret line="138" column="21" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
             </state>
           </provider>
@@ -110,7 +100,7 @@
         <entry file="file://$PROJECT_DIR$/build.properties">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="306">
-              <caret line="18" column="15" lean-forward="true" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
+              <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
             </state>
           </provider>
         </entry>
@@ -118,8 +108,8 @@
       <file leaf-file-name="ToolTipRenderer.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/render/ToolTipRenderer.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4686">
-              <caret line="478" lean-forward="true" selection-start-line="478" selection-end-line="478" />
+            <state relative-caret-position="7973">
+              <caret line="478" selection-start-line="478" selection-end-line="478" />
             </state>
           </provider>
         </entry>
@@ -173,8 +163,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="PackagesPane" />
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -216,7 +204,9 @@
           <select />
         </subPane>
       </pane>
+      <pane id="PackagesPane" />
       <pane id="AndroidView" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -326,7 +316,6 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-7" y="-7" width="1550" height="838" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info anchor="right" id="Palette" order="3" />
       <window_info anchor="bottom" id="TODO" order="6" weight="0.32842582" />
@@ -342,10 +331,9 @@
       <window_info id="Capture Tool" order="2" />
       <window_info id="Designer" order="2" />
       <window_info anchor="bottom" id="Run with VisualVM" order="8" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.32684565" />
-      <window_info anchor="bottom" id="Find" order="1" weight="0.3292402" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.33154362" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.24966443" />
+      <window_info active="true" anchor="right" id="Ant Build" order="2" visible="true" weight="0.24966443" />
       <window_info id="UI Designer" order="2" />
       <window_info anchor="right" id="Theme Preview" order="7" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
@@ -360,6 +348,7 @@
       <window_info id="JRebel" order="2" side_tool="true" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="1" weight="0.25" />
       <window_info anchor="bottom" id="JRebel Console" order="7" side_tool="true" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.3292402" />
     </layout>
   </component>
   <component name="VcsContentAnnotationSettings">
@@ -673,14 +662,14 @@
     <entry file="file://$PROJECT_DIR$/build.properties">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="306">
-          <caret line="18" column="15" lean-forward="true" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
+          <caret line="18" column="15" selection-start-line="18" selection-start-column="15" selection-end-line="18" selection-end-column="15" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/render/ToolTipRenderer.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4686">
-          <caret line="478" lean-forward="true" selection-start-line="478" selection-end-line="478" />
+        <state relative-caret-position="7973">
+          <caret line="478" selection-start-line="478" selection-end-line="478" />
         </state>
       </provider>
     </entry>
@@ -700,7 +689,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/view/orbit/BasicOrbitView.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
+        <state relative-caret-position="357">
           <caret line="33" column="89" selection-start-line="33" selection-start-column="80" selection-end-line="33" selection-end-column="89" />
         </state>
       </provider>
@@ -708,7 +697,7 @@
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/BasicSceneController.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="68">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
         </state>
       </provider>
     </entry>
@@ -721,43 +710,43 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwindx/examples/util/BalloonController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="328">
+        <state relative-caret-position="6528">
           <caret line="409" column="29" selection-start-line="409" selection-start-column="29" selection-end-line="409" selection-end-column="29" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwindx/examples/util/BalloonResizeController.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="226">
+        <state relative-caret-position="2159">
           <caret line="138" column="21" selection-start-line="138" selection-start-column="21" selection-end-line="138" selection-end-column="21" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwindx/examples/ContextMenusOnShapes.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="311">
-          <caret line="92" column="13" lean-forward="true" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
+        <state relative-caret-position="1309">
+          <caret line="92" column="13" selection-start-line="92" selection-start-column="13" selection-end-line="92" selection-end-column="13" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/view/orbit/OrbitViewInputHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="447">
-          <caret line="459" column="20" lean-forward="true" selection-start-line="445" selection-start-column="20" selection-end-line="459" selection-end-column="20" />
+        <state relative-caret-position="7531">
+          <caret line="459" column="20" selection-start-line="445" selection-start-column="20" selection-end-line="459" selection-end-column="20" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/render/AbstractBrowserBalloon.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="102">
-          <caret line="2186" column="5" lean-forward="true" selection-start-line="2186" selection-start-column="5" selection-end-line="2186" selection-end-column="5" />
+        <state relative-caret-position="36805">
+          <caret line="2186" column="5" selection-start-line="2186" selection-start-column="5" selection-end-line="2186" selection-end-column="5" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/gov/nasa/worldwind/awt/AbstractViewInputHandler.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="987" column="4" selection-start-line="987" selection-start-column="4" selection-end-line="987" selection-end-column="4" />
+        <state relative-caret-position="389">
+          <caret line="963" selection-start-line="963" selection-end-line="963" />
         </state>
       </provider>
     </entry>
