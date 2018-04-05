@@ -394,6 +394,9 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
 
     protected void requestTile(TileKey key)
     {
+        if(WorldWind.isOfflineMode())
+            return;
+
         if (WorldWind.getTaskService().isFull())
             return;
 
@@ -874,7 +877,7 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
         if (WorldWind.getRetrievalService().contains(retriever))
             return;
 
-        WorldWind.getRetrievalService().runRetriever(retriever, 0d);
+        WorldWind.getRetrievalService().runRetriever(retriever, tile.getPriority());
     }
 
     protected static class DownloadPostProcessor extends AbstractRetrievalPostProcessor
