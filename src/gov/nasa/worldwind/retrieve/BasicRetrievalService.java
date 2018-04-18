@@ -27,7 +27,7 @@ public final class BasicRetrievalService extends WWObjectImpl
     private static final int DEFAULT_QUEUE_SIZE = 100;
     private static final int DEFAULT_POOL_SIZE = 5;
     private static final long DEFAULT_STALE_REQUEST_LIMIT = 30000; // milliseconds
-    private static final int DEFAULT_TIME_PRIORITY_GRANULARITY = 500; // milliseconds
+    private static final int DEFAULT_TIME_PRIORITY_GRANULARITY = 10000; // milliseconds
 
     private static final String RUNNING_THREAD_NAME_PREFIX = Logging.getMessage(
         "BasicRetrievalService.RunningThreadNamePrefix");

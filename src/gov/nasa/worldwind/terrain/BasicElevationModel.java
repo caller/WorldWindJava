@@ -2121,6 +2121,8 @@ public class BasicElevationModel extends AbstractElevationModel implements BulkR
                 retrieveResources();
             }
         });
+        t.setDaemon(true);
+        t.setPriority(Thread.MIN_PRIORITY);
         t.setName("Capabilities retrieval for " + this.getName());
         t.start();
     }
